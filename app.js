@@ -78,7 +78,7 @@ function login(msg){
   app.innerHTML=`<div class="card login"><h2>🔒 Staff login</h2><p class="sub">Enter the password to view requests.</p>
   <input id="pw" type="password" placeholder="Password" autofocus><div class="err" style="display:${msg?"block":"none"}">${esc(msg||"")}</div>
   <button class="btn big" id="lg">View requests</button></div>`;
-  const go=()=>{pw=$("#pw").value;load()};$("#lg").onclick=go;$("#pw").onkeydown=e=>e.key==="Enter"&&go();
+  const go=()=>{pw=$("#pw").value;load()};$("#lg").onclick=go;$("#pw").addEventListener("keydown",e=>{if(e.key==="Enter")go()});
 }
 async function load(){
   app.innerHTML=`<div class="empty">Loading…</div>`;
