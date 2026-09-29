@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Submit a 3D Printing or Laser Engraving Request</title>
+<link rel="stylesheet" href="style.css"></head><body>
+<header class="top" id="nav"></header>
+<main class="narrow">
+<section class="hero"><h1>Submit a 3D Printing or Laser Engraving Request</h1>
+<p>Tell us what you need and when you need it. Fill out the form below and we'll take it from there.</p></section>
+<div id="demo"></div>
+
+<section class="card" id="formCard">
+<h2>Your request</h2><p class="sub">Fields marked * are required.</p>
+<form id="reqForm" novalidate>
+<label for="name">Your name *</label><input id="name" autocomplete="name" required><div class="err">Please enter your name.</div>
+<label>What kind of request is this? *</label>
+<div class="types">
+<label class="type"><input type="radio" name="type" value="3D Printing"><div class="d3"><span>🧊</span>3D Printing<small>Print a model in plastic</small></div></label>
+<label class="type"><input type="radio" name="type" value="Laser Engraving"><div class="ls"><span>🔥</span>Laser Engraving<small>Engrave a design or text</small></div></label>
+</div><div class="err" id="typeErr">Please choose 3D Printing or Laser Engraving.</div>
+
+<label for="need">What do you need? *</label><input id="need" placeholder="e.g. Phone stand, wooden name sign" required><div class="err">Please describe what you need.</div>
+
+<div class="panel" id="p3d">
+<label for="link3d">Link to the model *</label><input id="link3d" type="url" placeholder="https://...">
+<div class="err">Please paste a link starting with http:// or https://</div>
+<div class="hint">Use a link from <a href="#sites3d">MakerWorld, Thingiverse or Printables</a> (see below).</div>
+<label for="colors">Colors wanted <small>(optional)</small></label><input id="colors" placeholder="e.g. Blue and white">
+</div>
+
+<div class="panel" id="plaser">
+<label for="etext">Text to engrave <small>(if any)</small></label><input id="etext" placeholder="e.g. Sarah M.">
+<label for="linkL">Design / file link <small>(optional)</small></label><input id="linkL" type="url" placeholder="https://...">
+<div class="err">Please paste a link starting with http:// or https://</div>
+<div class="hint">No design? No problem — just type the text above. Ideas: <a href="#sitesL">design sites below</a>.</div>
+<div class="err" id="laserErr">Please enter text to engrave or a design link.</div>
+</div>
+
+<div class="row"><div><label for="qty">Quantity</label><input id="qty" type="number" min="1" value="1"></div>
+<div><label for="due">Date you need it by *</label><input id="due" type="date" required><div class="err">Please choose a date.</div></div></div>
+
+<label for="comments">Comments / special instructions</label>
+<textarea id="comments" placeholder="Colors, size, how a name should be positioned, material preferences, anything else…"></textarea>
+<input class="hp" id="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+<button class="btn big" id="go" type="submit">Submit Request</button>
+<div class="err" id="fail" style="text-align:center"></div>
+</form>
+<div class="done" id="done"><div class="tick">✓</div><h2>Request received!</h2>
+<p>Thank you, <b id="dName"></b>. Your request number is</p><div class="num">#<span id="dNum"></span></div>
+<p class="sub">Please keep this number for your records.</p><button class="btn" onclick="location.reload()">Submit another request</button></div>
+</section>
+
+<div class="two">
+<section class="card" id="sites3d"><div class="callout t3">Looking for a 3D model? Check these sites in this order:</div>
+<div class="sites">
+<a class="site c3" href="https://makerworld.com/en" target="_blank" rel="noopener"><span class="n">1</span><div>MakerWorld<small>Check here first</small></div><span class="go">↗</span></a>
+<a class="site c3" href="https://www.thingiverse.com/" target="_blank" rel="noopener"><span class="n">2</span><div>Thingiverse<small>Check here second</small></div><span class="go">↗</span></a>
+<a class="site c3" href="https://www.printables.com/" target="_blank" rel="noopener"><span class="n">3</span><div>Printables<small>Check here third</small></div><span class="go">↗</span></a>
+</div></section>
+<section class="card" id="sitesL"><div class="callout tl">Looking for a laser engraving design? Check these sites:</div>
+<div class="sites">
+<a class="site cl" href="https://www.atomm.com/" target="_blank" rel="noopener"><span class="n">1</span><div>Atomm<small>Free laser designs</small></div><span class="go">↗</span></a>
+<a class="site cl" href="https://www.ponoko.com/free-laser-cutting-files-templates" target="_blank" rel="noopener"><span class="n">2</span><div>Ponoko<small>Free laser files &amp; templates</small></div><span class="go">↗</span></a>
+</div></section></div>
+</main>
+<script src="config.js"></script><script src="app.js"></script></body></html>
