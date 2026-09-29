@@ -20,17 +20,28 @@
 <label for="need">What do you need? *</label><input id="need" placeholder="e.g. Phone stand, wooden name sign" required><div class="err">Please describe what you need.</div>
 
 <div class="panel" id="p3d">
+<div class="callout t3">Looking for a 3D model? Check these sites in this order:</div>
+<div class="sites">
+<a class="site c3" href="https://makerworld.com/en" target="_blank" rel="noopener"><span class="n">1</span><div>MakerWorld<small>Check here first</small></div><span class="go">↗</span></a>
+<a class="site c3" href="https://www.thingiverse.com/" target="_blank" rel="noopener"><span class="n">2</span><div>Thingiverse<small>Check here second</small></div><span class="go">↗</span></a>
+<a class="site c3" href="https://www.printables.com/" target="_blank" rel="noopener"><span class="n">3</span><div>Printables<small>Check here third</small></div><span class="go">↗</span></a>
+</div>
 <label for="link3d">Link to the model *</label><input id="link3d" type="url" placeholder="https://...">
 <div class="err">Please paste a link starting with http:// or https://</div>
-<div class="hint">Use a link from <a href="#sites3d">MakerWorld, Thingiverse or Printables</a> (see below).</div>
+<div class="hint">Paste the link from one of the sites above.</div>
 <label for="colors">Colors wanted <small>(optional)</small></label><input id="colors" placeholder="e.g. Blue and white">
 </div>
 
 <div class="panel" id="plaser">
+<div class="callout tl">Looking for a laser engraving design? Check these sites:</div>
+<div class="sites">
+<a class="site cl" href="https://www.atomm.com/" target="_blank" rel="noopener"><span class="n">1</span><div>Atomm<small>Free laser designs</small></div><span class="go">↗</span></a>
+<a class="site cl" href="https://www.ponoko.com/free-laser-cutting-files-templates" target="_blank" rel="noopener"><span class="n">2</span><div>Ponoko<small>Free laser files &amp; templates</small></div><span class="go">↗</span></a>
+</div>
 <label for="etext">Text to engrave <small>(if any)</small></label><input id="etext" placeholder="e.g. Sarah M.">
 <label for="linkL">Design / file link <small>(optional)</small></label><input id="linkL" type="url" placeholder="https://...">
 <div class="err">Please paste a link starting with http:// or https://</div>
-<div class="hint">No design? No problem — just type the text above. Ideas: <a href="#sitesL">design sites below</a>.</div>
+<div class="hint">No design? No problem — just type the text you want engraved.</div>
 <div class="err" id="laserErr">Please enter text to engrave or a design link.</div>
 </div>
 
@@ -48,17 +59,5 @@
 <p class="sub">Please keep this number for your records.</p><button class="btn" onclick="location.reload()">Submit another request</button></div>
 </section>
 
-<div class="two">
-<section class="card" id="sites3d"><div class="callout t3">Looking for a 3D model? Check these sites in this order:</div>
-<div class="sites">
-<a class="site c3" href="https://makerworld.com/en" target="_blank" rel="noopener"><span class="n">1</span><div>MakerWorld<small>Check here first</small></div><span class="go">↗</span></a>
-<a class="site c3" href="https://www.thingiverse.com/" target="_blank" rel="noopener"><span class="n">2</span><div>Thingiverse<small>Check here second</small></div><span class="go">↗</span></a>
-<a class="site c3" href="https://www.printables.com/" target="_blank" rel="noopener"><span class="n">3</span><div>Printables<small>Check here third</small></div><span class="go">↗</span></a>
-</div></section>
-<section class="card" id="sitesL"><div class="callout tl">Looking for a laser engraving design? Check these sites:</div>
-<div class="sites">
-<a class="site cl" href="https://www.atomm.com/" target="_blank" rel="noopener"><span class="n">1</span><div>Atomm<small>Free laser designs</small></div><span class="go">↗</span></a>
-<a class="site cl" href="https://www.ponoko.com/free-laser-cutting-files-templates" target="_blank" rel="noopener"><span class="n">2</span><div>Ponoko<small>Free laser files &amp; templates</small></div><span class="go">↗</span></a>
-</div></section></div>
 </main>
 <script src="config.js"></script><script src="app.js"></script></body></html>

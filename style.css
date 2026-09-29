@@ -61,3 +61,5 @@ select.st{width:auto;padding:6px 8px;font-weight:700;border-radius:8px}
 .empty{padding:40px;text-align:center;color:var(--muted)}
 .login{max-width:380px;margin:60px auto;text-align:center}
 @media(max-width:720px){.row,.two,.types{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.card{padding:18px}}
+
+.panel .callout{background:#fff;margin-top:16px}.panel .sites{margin-bottom:4px}
