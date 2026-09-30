@@ -37,22 +37,32 @@ if(form){
   const due=$("#due");due.min=new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
   const type=()=>{const c=form.querySelector("[name=type]:checked");return c&&c.value};
   form.addEventListener("change",()=>{const t=type();$("#p3d").classList.toggle("show",t==="3D Printing");$("#plaser").classList.toggle("show",t==="Laser Engraving");$("#typeErr").style.display="none"});
+  const qp=new URLSearchParams(location.search),EDIT=!DEMO&&qp.get("edit")?{id:qp.get("edit"),t:qp.get("t")||""}:null;
+  if(EDIT){document.querySelector("h1").textContent="Edit your request #"+EDIT.id;document.querySelector(".hero p").textContent="Change anything below and save. Edits are possible until we start working on your request.";
+    const msg=m=>{$("#formCard").innerHTML="<h2>"+m+"</h2><p class='sub'>Reply to your confirmation email if you need help.</p>"};
+    fetch(URL_+"?action=get&id="+encodeURIComponent(EDIT.id)+"&t="+encodeURIComponent(EDIT.t)).then(r=>r.json()).then(j=>{
+      if(!j.ok)return msg("Sorry, this edit link isn't valid.");const r=j.row;
+      if(r.status!=="New")return msg("We've already started on this request, so it can't be edited here.");
+      $("#name").value=r.name;$("#email").value=r.email;$("#need").value=r.need;due.value=r.due;$("#qty").value=r.qty;$("#comments").value=r.comments;
+      form.querySelector('[name=type][value="'+r.type+'"]').checked=true;form.dispatchEvent(new Event("change"));
+      if(r.type==="3D Printing"){$("#link3d").value=r.link;$("#colors").value=r.colors}else{$("#linkL").value=r.link;$("#etext").value=r.engraving}
+      $("#go").textContent="Save Changes"}).catch(()=>msg("Couldn't load your request. Please try again."))}
   const isUrl=v=>{try{return /^https?:$/.test(new URL(v).protocol)}catch(e){return false}};
   const mark=(el,bad)=>{el.classList.toggle("bad",bad);return bad};
   form.addEventListener("submit",async e=>{
     e.preventDefault(); if($("#website").value) return; // spam trap
     const t=type(),v=i=>$(i).value.trim(); let bad=false;
-    bad=mark($("#name"),!v("#name"))||bad; bad=mark($("#need"),!v("#need"))||bad; bad=mark(due,!due.value)||bad;
+    bad=mark($("#name"),!v("#name"))||bad; bad=mark($("#email"),!/^\S+@\S+\.\S+$/.test(v("#email")))||bad; bad=mark($("#need"),!v("#need"))||bad; bad=mark(due,!due.value)||bad;
     $("#typeErr").style.display=t?"none":"block"; if(!t)bad=true;
     $("#laserErr").style.display="none";
     if(t==="3D Printing"){bad=mark($("#link3d"),!isUrl(v("#link3d")))||bad}
     if(t==="Laser Engraving"){const l=v("#linkL");bad=mark($("#linkL"),!!l&&!isUrl(l))||bad;
       if(!l&&!v("#etext")){$("#laserErr").style.display="block";bad=true}}
     if(bad){const f=form.querySelector(".bad,#typeErr[style*=block],#laserErr[style*=block]");f&&f.scrollIntoView({behavior:"smooth",block:"center"});return}
-    const d={name:v("#name"),type:t,need:v("#need"),due:due.value,qty:Math.max(1,parseInt($("#qty").value)||1),comments:v("#comments"),
+    const d={name:v("#name"),email:v("#email"),type:t,need:v("#need"),due:due.value,qty:Math.max(1,parseInt($("#qty").value)||1),comments:v("#comments"),
       link:t==="3D Printing"?v("#link3d"):v("#linkL"),colors:t==="3D Printing"?v("#colors"):"",engraving:t==="Laser Engraving"?v("#etext"):""};
     const b=$("#go");b.disabled=true;b.textContent="Sending…";$("#fail").textContent="";
-    try{const id=await submitRequest(d);$("#dName").textContent=d.name;$("#dNum").textContent=id;form.style.display="none";$("#done").style.display="block";$("#formCard").scrollIntoView({behavior:"smooth"})}
+    try{const id=EDIT?(await api({action:"edit",id:EDIT.id,token:EDIT.t,data:d}),EDIT.id):await submitRequest(d);if(EDIT)$("#done h2").textContent="Request updated!";$("#dName").textContent=d.name;$("#dNum").textContent=id;form.style.display="none";$("#done").style.display="block";$("#formCard").scrollIntoView({behavior:"smooth"})}
     catch(err){$("#fail").style.display="block";$("#fail").textContent="Sorry, something went wrong sending your request. Please try again.";b.disabled=false;b.textContent="Submit Request"}
   });
 }
@@ -66,12 +76,12 @@ const typePill=r=>`<span class="pill ${r.type==="3D Printing"?"t3":"tl"}">${r.ty
 const dueCell=r=>{const d=days(r),open=r.status==="New"||r.status==="In Progress";let b="";
   if(open&&d<0)b=` <span class="pill late">Overdue</span>`;else if(open&&d<=3)b=` <span class="pill soon">${d===0?"Today":"Due soon"}</span>`;return esc(r.due)+b};
 const stCell=r=>`<select class="st s-${r.status}" data-id="${r.id}">${STATUSES.map(s=>`<option${s===r.status?" selected":""}>${s}</option>`).join("")}</select>`;
-const C={id:["#",r=>"#"+r.id],name:["Name",r=>esc(r.name)],type:["Type",typePill],need:["What they need",r=>esc(r.need)],
+const C={id:["#",r=>"#"+r.id],name:["Name",r=>esc(r.name)],email:["Email",r=>esc(r.email)],type:["Type",typePill],need:["What they need",r=>esc(r.need)],
   link:["Model / Design Link",r=>link(r.link)],engraving:["Engraving Text",r=>esc(r.engraving)],qty:["Qty",r=>esc(r.qty)],colors:["Colors",r=>esc(r.colors)],
   due:["Date Needed",dueCell],comments:["Comments / Instructions",r=>`<td class="c">${esc(r.comments)}</td>`],
   submitted:["Submitted",r=>esc((r.submitted||"").slice(0,10))],status:["Status",stCell]};
-const sets={all:["id","name","type","need","link","engraving","qty","due","comments","submitted","status"],
-  "3d":["id","name","need","link","colors","qty","due","comments","status"],laser:["id","name","need","link","engraving","qty","due","comments","status"]};
+const sets={all:["id","name","email","type","need","link","engraving","qty","due","comments","submitted","status"],
+  "3d":["id","name","email","need","link","colors","qty","due","comments","status"],laser:["id","name","email","need","link","engraving","qty","due","comments","status"]};
 cols=sets[view];
 
 function login(msg){
