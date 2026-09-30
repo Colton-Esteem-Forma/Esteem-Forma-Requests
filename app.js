@@ -109,7 +109,8 @@ function table(){
   const q=$("#q").value.toLowerCase(),f=$("#f").value;
   let list=rows.filter(r=>(view==="all"||(view==="3d")===(r.type==="3D Printing"))&&
     (!f||(f==="open"?(r.status==="New"||r.status==="In Progress"):r.status===f))&&(!q||JSON.stringify(r).toLowerCase().includes(q)));
-  list.sort((a,b)=>{const x=a[sort.k],y=b[sort.k];return(sort.k==="id"||sort.k==="qty"?x-y:String(x).localeCompare(String(y)))*sort.dir});
+  const cl=r=>r.status==="Completed"||r.status==="Cancelled"?1:0;
+  list.sort((a,b)=>{if(sort.k==="due"&&cl(a)!==cl(b))return cl(a)-cl(b);const x=a[sort.k],y=b[sort.k];return(sort.k==="id"||sort.k==="qty"?x-y:String(x).localeCompare(String(y)))*sort.dir});
   $("#tb").innerHTML=list.length?`<table><thead><tr>${cols.map(k=>`<th data-k="${k}">${C[k][0]}${sort.k===k?(sort.dir>0?" ▲":" ▼"):""}</th>`).join("")}</tr></thead><tbody>`+
    list.map(r=>"<tr>"+cols.map(k=>{const h=C[k][1](r);return h.startsWith("<td")?h:`<td>${h}</td>`}).join("")+"</tr>").join("")+`</tbody></table>`:`<div class="empty">No requests found.</div>`;
   $("#tb").querySelectorAll("th").forEach(th=>th.onclick=()=>{const k=th.dataset.k;sort=sort.k===k?{k,dir:-sort.dir}:{k,dir:1};table()});
