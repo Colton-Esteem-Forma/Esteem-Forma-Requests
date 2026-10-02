@@ -63,3 +63,10 @@ select.st{width:auto;padding:6px 8px;font-weight:700;border-radius:8px}
 @media(max-width:720px){.row,.two,.types{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.card{padding:18px}}
 
 .panel .callout{background:#fff;margin-top:16px}.panel .sites{margin-bottom:4px}
+
+.btn.sm{padding:6px 12px;font-size:.85rem;border-radius:8px}
+dialog{border:0;border-radius:var(--r);padding:20px;width:min(560px,94vw);box-shadow:0 10px 40px rgba(0,0,0,.25)}dialog::backdrop{background:rgba(0,0,0,.4)}
+.dh{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.chat{display:flex;flex-direction:column;gap:8px;max-height:45vh;overflow:auto;margin-bottom:12px}
+.bub{padding:10px 14px;border-radius:14px;max-width:85%;white-space:pre-wrap}.bub small{display:block;color:var(--muted);font-size:.75rem}
+.bub.me{align-self:flex-end;background:var(--p3d-bg)}.bub.them{align-self:flex-start;background:#f1f2f6}
